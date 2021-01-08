@@ -1,21 +1,34 @@
 import React from 'react';
-import AnswersList from '../AnswersList/AnswersList'
+import AnswersList from './AnswersList/AnswersList'
 import classes from './ActiveQuiz.module.css';
 
-const ActiveQuiz = ({answers}) => {
+const ActiveQuiz = (props) => {
+  const {
+    quizLength,
+    activeQuestionNum,
+    answers, 
+    question,
+    answerStatus,
+    onAnswerClick
+  } = props;
   return (
     <div className={classes.ActiveQuiz}>
       <p className={classes.Question}>
         <span>
-          <strong>1.</strong>&nbsp; How are you?
+          <strong>{activeQuestionNum}.</strong>&nbsp; 
+          {question}
         </span>
 
         <small>
-          4 from 12
+          {activeQuestionNum} from {quizLength}
         </small>
       </p>
 
-     <AnswersList answers={answers} />
+     <AnswersList 
+      answers={answers}
+      answerStatus={answerStatus}
+      onAnswerClick={onAnswerClick}
+      />
     </div>
   );
 };
