@@ -5,6 +5,7 @@ import classes from './Quiz.module.css';
 
 export default class Quiz extends Component {
   state = {
+    results: {}, //{id: 'success, 'wrong'}
     activeQuestionCount: 0,
     answerStatus: null, // {id: 'success, 'wrong'} текущий клик (выбор) пользова
     isFinished: false,
@@ -62,18 +63,28 @@ export default class Quiz extends Component {
       return;
     }
 
-    const currentQuestion = this.state.quiz[this.state.activeQuestionCount];
+    const currentQuestion = this.state.quiz[this.state.activeQuestionCount],
+          results = this.state.results;
 
     //проверка выбора пользователя
     if (currentQuestion.rightAnswerId === answerId) {
+      if(!results[currentQuestion.id]) {
+        results[currentQuestion.id] = 'success'
+      }
+
       this.setState({
         answerStatus: { [answerId]: 'success' },
+        results
       });
+
       this.goNextQuestion();
     } else {
+      results[currentQuestion.id] = 'wrong';
       this.setState({
         answerStatus: { [answerId]: 'wrong' },
+        results
       });
+
       this.goNextQuestion();
     }
   };
@@ -93,7 +104,7 @@ export default class Quiz extends Component {
       }
 
       window.clearTimeout(timeout);
-    }, 1000);
+    }, 500);
   };
 
   //Конец теста
@@ -101,8 +112,26 @@ export default class Quiz extends Component {
     return this.state.activeQuestionCount + 1 === this.state.quiz.length;
   }
 
+  retryClickHandler = ()=> {
+    this.setState({
+      isFinished: false,
+      answerStatus: null,
+      activeQuestionCount: 0,
+      results: {}
+    })
+  }
+
+  componentDidMount() {
+    console.log('Quiz ID', this.props.match.params.id)
+  }
+
   render() {
-    const { quiz, activeQuestionCount, answerStatus, isFinished } = this.state;
+    const { 
+      quiz, 
+      activeQuestionCount, 
+      answerStatus, 
+      isFinished,
+      results } = this.state;
 
     return (
       <div className={classes.Quiz}>
@@ -110,7 +139,9 @@ export default class Quiz extends Component {
           <h1>Answer all questions</h1>
           {isFinished ? (
             <FinishedQuiz 
-              
+              results={results}
+              quiz={quiz}
+              onRetry={this.retryClickHandler}
             />
           ) : (
             <ActiveQuiz

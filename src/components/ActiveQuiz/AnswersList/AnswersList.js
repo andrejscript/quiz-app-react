@@ -5,7 +5,7 @@ import classes from './AnswersList.module.css';
 const AnswersList = ({ answers, answerStatus, onAnswerClick }) => {
   return (
     <ul className={classes.AnswersList}>
-      {answers.map((a) => {
+      {answers.map(a => {
         return (
           <AnswerItem
             key={a.id}
