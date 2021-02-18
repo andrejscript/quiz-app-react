@@ -137,6 +137,8 @@ export default class Quiz extends Component {
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Answer all questions</h1>
+          
+          
           {isFinished ? (
             <FinishedQuiz 
               results={results}
