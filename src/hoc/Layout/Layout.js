@@ -3,6 +3,8 @@ import MenuToggle from '../../components/Navigation/MenuToggle/MenuToggle';
 import Drawer from '../../components/Navigation/Drawer/Drawer';
 import classes from './Layout.module.css';
 
+
+// HOC 
 export default class Layout extends Component {
   state = {
     menu: false,
