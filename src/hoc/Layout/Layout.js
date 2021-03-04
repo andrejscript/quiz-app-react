@@ -4,7 +4,7 @@ import Drawer from '../../components/Navigation/Drawer/Drawer';
 import classes from './Layout.module.css';
 
 
-// HOC 
+// HOC  - new
 export default class Layout extends Component {
   state = {
     menu: false,
