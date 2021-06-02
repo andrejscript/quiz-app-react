@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz';
-import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz'
+import FinishedQuiz from '../../components/FinishedQuiz/FinishedQuiz';
 import classes from './Quiz.module.css';
 
 export default class Quiz extends Component {
@@ -58,23 +58,25 @@ export default class Quiz extends Component {
   };
 
   // Обработка клика по варианту ответа
-  onAnswerClickHandler = (answerId) => {
+  onAnswerClickHandler = answerId => {
+    console.log(this.state.results);
+
     if (this.state.answerStatus) {
       return;
     }
 
     const currentQuestion = this.state.quiz[this.state.activeQuestionCount],
-          results = this.state.results;
+      results = this.state.results;
 
     //проверка выбора пользователя
     if (currentQuestion.rightAnswerId === answerId) {
-      if(!results[currentQuestion.id]) {
-        results[currentQuestion.id] = 'success'
+      if (!results[currentQuestion.id]) {
+        results[currentQuestion.id] = 'success';
       }
 
       this.setState({
         answerStatus: { [answerId]: 'success' },
-        results
+        results,
       });
 
       this.goNextQuestion();
@@ -82,7 +84,7 @@ export default class Quiz extends Component {
       results[currentQuestion.id] = 'wrong';
       this.setState({
         answerStatus: { [answerId]: 'wrong' },
-        results
+        results,
       });
 
       this.goNextQuestion();
@@ -112,35 +114,30 @@ export default class Quiz extends Component {
     return this.state.activeQuestionCount + 1 === this.state.quiz.length;
   }
 
-  retryClickHandler = ()=> {
+  retryClickHandler = () => {
     this.setState({
       isFinished: false,
       answerStatus: null,
       activeQuestionCount: 0,
-      results: {}
-    })
-  }
+      results: {},
+    });
+  };
 
   componentDidMount() {
-    console.log('Quiz ID', this.props.match.params.id)
+    console.log('Quiz ID', this.props.match.params.id);
   }
 
   render() {
-    const { 
-      quiz, 
-      activeQuestionCount, 
-      answerStatus, 
-      isFinished,
-      results } = this.state;
+    const { quiz, activeQuestionCount, answerStatus, isFinished, results } =
+      this.state;
 
     return (
       <div className={classes.Quiz}>
         <div className={classes.QuizWrapper}>
           <h1>Answer all questions</h1>
-          
-          
+
           {isFinished ? (
-            <FinishedQuiz 
+            <FinishedQuiz
               results={results}
               quiz={quiz}
               onRetry={this.retryClickHandler}
