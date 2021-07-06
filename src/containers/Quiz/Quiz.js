@@ -15,10 +15,10 @@ export default class Quiz extends Component {
         question: 'Who was C. Dickens?',
         rightAnswerId: 3,
         answers: [
-          { text: 'sailor', id: 1 },
-          { text: 'medic', id: 2 },
-          { text: 'writer', id: 3 },
-          { text: 'architector', id: 4 },
+          { text: 'Sailor', id: 1 },
+          { text: 'Medic', id: 2 },
+          { text: 'Writer', id: 3 },
+          { text: 'Architector', id: 4 },
         ],
       },
       {
